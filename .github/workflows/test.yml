@@ -1,22 +1,17 @@
-name: TEST
-
+name: Webhook Example
 on: repository_dispatch
-
 jobs:
-  test:
-
+  build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x]
-
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: test
+    
+    - name: On my_custom_webhook do ABC...
+      if: github.event.action == 'my_custom_webhook'
       run: |
-        node -v
+        echo "Hello From my_custom_webhook...doing ABC"
+        
+    - name: On my_custom_webhook do XYZ...
+      if: github.event.action == 'my_custom_webhook_2'
+      run: |
+        echo "Hello From my_custom_webhook_2...doing XYZ"
