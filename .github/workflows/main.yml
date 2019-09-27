@@ -7,10 +7,14 @@ jobs:
     - uses: actions/checkout@master
       with: 
         submodules: true
-        ref: ${{ github.event.action }}
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+    - name: checkout sdk branch
+      if: github.event.action  != ''
+      run: |
+        cd sdk
+        git checkout ${{ github.event.action }}
     - name: build docs
       run: |
         cd sdk
