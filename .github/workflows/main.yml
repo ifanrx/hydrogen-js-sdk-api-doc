@@ -16,4 +16,4 @@ jobs:
         cd sdk
         npm install
         npm run gen-docs-wechat
-        ls ./docks
+        ls ./docs
