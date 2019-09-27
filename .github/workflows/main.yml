@@ -12,6 +12,7 @@ jobs:
         node-version: '10.x'
     - name: build docs
       run: |
+        echo test ${{ github.event_name }}, ${{ github.event.action }}
         cd sdk
         npm install
         npm run gen-docs-wechat
