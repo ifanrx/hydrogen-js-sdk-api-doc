@@ -6,15 +6,16 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with: 
-        token: ${{ secrets.TOKEN }}
-        submodules: true 
+        submodules: true
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: Run a multi-line script
+    - name: build docs
       run: |
         cd sdk
         npm install
         npm run gen-docs-wechat
+    - name: deploy
+      run: |
         npm install gh-pages -g
         gh-pages -r http://zzzze:${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d docs -u "zhangzeshuan <zhangzeshuan@ifanr.com>"
