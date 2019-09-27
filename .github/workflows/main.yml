@@ -7,12 +7,12 @@ jobs:
     - uses: actions/checkout@master
       with: 
         submodules: true
+        ref: ${{ github.event.action }}
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
     - name: build docs
       run: |
-        echo test ${{ github.event_name }}, ${{ github.event.action }}
         cd sdk
         npm install
         npm run gen-docs-wechat
