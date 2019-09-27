@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: should build docs
+        run: echo ${{github.event.action}}
         if: toJson(github.event.action).type != 'build-docs'
         run: exit 1
   build:
