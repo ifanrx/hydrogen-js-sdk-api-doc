@@ -7,7 +7,8 @@ jobs:
       - name: should build docs
         if: toJson(github.event.action).type != 'build-docs'
         run: |
-          echo ${{github.event.action}}
+          echo "${{github.event.action}}"
+          echo "${{toJson(github.event.action)}}"
           exit 1
   build:
     runs-on: ubuntu-latest
