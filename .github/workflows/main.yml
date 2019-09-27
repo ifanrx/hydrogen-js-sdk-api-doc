@@ -14,7 +14,7 @@ jobs:
         if: github.event.action != ''
         run: |
           cd sdk
-          git checkout github.event.action
+          git checkout ${{ github.event.action }}
       - name: build docs
         run: |
           cd sdk
