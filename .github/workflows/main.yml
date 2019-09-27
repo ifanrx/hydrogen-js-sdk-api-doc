@@ -7,7 +7,7 @@ jobs:
     - uses: actions/checkout@master
       with: 
         token: ${{ secrets.TOKEN }}
-        submodules: recursive 
+        submodules: true 
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
