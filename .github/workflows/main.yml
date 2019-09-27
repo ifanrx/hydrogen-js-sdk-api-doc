@@ -16,7 +16,5 @@ jobs:
         cd sdk
         npm install
         npm run gen-docs-wechat
-        rm -rf !(docs)
-        mv ./docs/* ./
-        rm -rf ./docs
-        ls
+        npm install gh-pages -g
+        gh-pages -r http://${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d docs
