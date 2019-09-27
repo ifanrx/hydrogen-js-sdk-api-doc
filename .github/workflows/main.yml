@@ -3,24 +3,25 @@ on: repository_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: toJson(github.event.action).type == 'build-docs'
     steps:
-    - uses: actions/checkout@master
-      with: 
-        submodules: true
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - name: checkout sdk branch
-      if: github.event.action  != ''
-      run: |
-        cd sdk
-        git checkout ${{ github.event.action }}
-    - name: build docs
-      run: |
-        cd sdk
-        npm install
-        npm run gen-docs-wechat
-    - name: deploy
-      run: |
-        npm install gh-pages -g
-        gh-pages -r http://zzzze:${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdk/docs -u "zhangzeshuan <zhangzeshuan@ifanr.com>"
+      - uses: actions/checkout@master
+        with:
+          submodules: true
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: checkout sdk branch
+        if: toJson(github.event.action).branch  != ''
+        run: |
+          cd sdk
+          git checkout ${{ toJson(github.event.action).branch }}
+      - name: build docs
+        run: |
+          cd sdk
+          npm install
+          npm run gen-docs-wechat
+      - name: deploy
+        run: |
+          npm install gh-pages -g
+          gh-pages -r http://zzzze:${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdk/docs -u "zhangzeshuan <zhangzeshuan@ifanr.com>"
