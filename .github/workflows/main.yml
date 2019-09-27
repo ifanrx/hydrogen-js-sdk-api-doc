@@ -1,14 +1,6 @@
 name: CI
 on: repository_dispatch
 jobs:
-  checkEvent:
-    runs-on: ubuntu-latest
-    steps:
-      - name: should build docs
-        if: toJson(github.event.action).type != 'build-docs'
-        run: |
-          echo "${{toJson(github.event.action)}}"
-          exit 1
   build:
     runs-on: ubuntu-latest
     needs: checkEvent
@@ -20,10 +12,10 @@ jobs:
         with:
           node-version: '10.x'
       - name: checkout sdk branch
-        if: toJson(github.event.action).branch  != ''
+        if: github.event.action != ''
         run: |
           cd sdk
-          git checkout ${{ toJson(github.event.action).branch }}
+          git checkout github.event.action
       - name: build docs
         run: |
           cd sdk
