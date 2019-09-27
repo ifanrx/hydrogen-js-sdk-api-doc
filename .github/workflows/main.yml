@@ -1,9 +1,14 @@
 name: CI
 on: repository_dispatch
 jobs:
+  checkEvent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: should build docs
+        if: toJson(github.event.action).type != 'build-docs'
+        run: exit 1
   build:
     runs-on: ubuntu-latest
-    if: toJson(github.event.action).type == 'build-docs'
     steps:
       - uses: actions/checkout@master
         with:
