@@ -18,4 +18,4 @@ jobs:
     - name: deploy
       run: |
         npm install gh-pages -g
-        gh-pages -r http://zzzze:${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdl/docs -u "zhangzeshuan <zhangzeshuan@ifanr.com>"
+        gh-pages -r http://zzzze:${{ secrets.TOKEN }}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdk/docs -u "zhangzeshuan <zhangzeshuan@ifanr.com>"
