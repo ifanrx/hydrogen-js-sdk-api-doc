@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: GeoPolygon.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,68 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: GeoPolygon.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const GeoPoint = require('./GeoPoint')
+const HError = require('./HError')
+const utils = require('./utils')
 
+/**
+ * Geo 多边形
+ * @memberof BaaS
+ * @public
+ */
+class GeoPolygon {
+  /**
+   * @param {number[][]} args 点坐标
+   */
+  constructor(args) {
+    if (args &amp;&amp; args instanceof Array) {
+      if (args.length &lt; 4) {
+        throw new HError(605)
+      } else {
+        this.points = args
+        this.geoJSON = {
+          type: 'Polygon',
+          coordinates: []
+        }
+      }
+    } else {
+      throw new HError(605)
+    }
+  }
 
-    <h3> </h3>
+  /**
+   * 转换为 GeoJSON
+   * @return {GeoJson}
+   */
+  toGeoJSON() {
+    let face = []
+    this.points.forEach((point) => {
+      if (point instanceof GeoPoint) {
+        face.push([point.longitude, point.latitude])
+      } else if (point instanceof Array &amp;&amp; point.length === 2) {
+        face.push(point)
+      } else {
+        throw new HError(605)
+      }
+    })
+    this.geoJSON.coordinates = [face]
+    return utils.cloneDeep(this.geoJSON)
+  }
+}
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = GeoPolygon
+</code></pre>
+        </article>
+    </section>
 
 
 

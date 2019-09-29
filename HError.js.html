@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: HError.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,75 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: HError.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @package
+ */
+class HError {
+  /**
+   * @param {number} code 错误码
+   * @param {string} msg 错误信息
+   */
+  constructor(code, msg) {
+    let error = new Error()
 
+    error.code = code
+    error.message = msg ? `${code}: ${msg}` : `${code}: ${this.mapErrorMessage(code)}`
 
-    <h3> </h3>
+    return error
+  }
 
+  // 前端错误信息定义
+  mapErrorMessage(code) {
+    switch (code) {
+    case 600:
+      return 'network disconnected'
+    case 601:
+      return 'request timeout'
+    case 602:
+      return 'uninitialized' // 未调用 BaaS.init()
+    case 603:
+      return 'unauthorized'  // 用户尚未授权
+    case 604:
+      return 'session missing' // 用户尚未登录
+    case 605:
+      return 'incorrect parameter type'
+    case 607:
+      return 'payment cancelled'
+    case 608:
+      return 'payment failed'   // error message 会被重写为微信返回的错误信息
+    case 609:
+      return 'wxExtend function should be executed to allow plugin use wx.login, wx.getUserInfo, wx.requestPayment'
+    case 610:
+      return 'errorTracker uninitialized'
+    case 611:
+      return 'unsupported function'
+    case 612:
+      return 'anonymous user is not allowed'
+    case 613:
+      return 'third party auth denied'
+    case 614:
+      return 'third party auth failed'
+    case 615:
+      return 'gateway type "weixin_tenpay_js" works in WeChat builtin browser only'
+    default:
+      return 'unknown error'
+    }
+  }
+}
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = HError
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: invokeFunction.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,56 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: invokeFunction.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const HError = require('./HError')
+const API = BaaS._config.API
 
+/**
+ * 调用云函数
+ * @name invoke
+ * @function
+ * @memberof BaaS
+ * @param {string} functionName 云函数名称
+ * @param {object} [params] 参数
+ * @param {boolean} [sync] 是否同步运行
+ * @return {Promise&lt;any>}
+ */
+const invokeFunction = (functionName, params, sync = true) => {
+  if (!functionName) {
+    throw new HError(605)
+  }
 
-    <h3> </h3>
+  let data = {
+    function_name: functionName,
+    sync,
+  }
 
+  if (params !== undefined) {
+    data.data = params
+  }
 
+  return BaaS._baasRequest({
+    url: API.CLOUD_FUNCTION,
+    method: 'POST',
+    data: data,
+  }).then(res => {
+    return res.data
+  })
+}
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = invokeFunction
+</code></pre>
+        </article>
+    </section>
 
 
 

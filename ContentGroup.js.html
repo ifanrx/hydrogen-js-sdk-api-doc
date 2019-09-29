@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: ContentGroup.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,87 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: ContentGroup.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const BaseQuery = require('./BaseQuery')
+const Query = require('./Query')
 
+/**
+ * 内容库
+ * @memberof BaaS
+ * @extends BaaS.BaseQuery
+ * @public
+ */
+class ContentGroup extends BaseQuery {
+  constructor(contentGroupID) {
+    super()
+    this._contentGroupID = contentGroupID
+  }
 
-    <h3> </h3>
+  /**
+   * 获取内容。
+   * @method
+   * @param {string} richTextID 内容 ID
+   * @return {Promise&lt;any>}
+   */
+  getContent(richTextID) {
+    let params = {richTextID}
+    if (this._expand) {
+      params.expand = this._expand
+    }
 
+    if (this._keys) {
+      params.keys = this._keys
+    }
+    this._initQueryParams()
+    return BaaS.getContent(params)
+  }
 
+  /**
+   * 查找内容。
+   * @method
+   * @return {Promise&lt;any>}
+   */
+  find() {
+    let condition = this._handleAllQueryConditions()
+    condition.contentGroupID = this._contentGroupID
+    this._initQueryParams()
+    return BaaS.getContentList2(condition)
+  }
 
+  /**
+   * 获取内容分类列表。
+   * @method
+   * @return {Promise&lt;any>}
+   */
+  getCategoryList() {
+    return BaaS.getContentCategoryList({contentGroupID: this._contentGroupID, limit: 100})
+  }
 
+  /**
+   * 获取内容分类详情。
+   * @method
+   * @return {Promise&lt;any>}
+   */
+  getCategory(categoryID) {
+    let query = new Query()
+    query.compare('group_id', '=', this._contentGroupID)
+    return BaaS.getContentCategory({categoryID, where: JSON.stringify(query.queryObject)})
+  }
+}
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = ContentGroup
+</code></pre>
+        </article>
+    </section>
 
 
 

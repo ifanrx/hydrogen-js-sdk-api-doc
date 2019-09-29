@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: FileCategory.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,68 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: FileCategory.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const BaseQuery = require('./BaseQuery')
+const Query = require('./Query')
 
+/**
+ * 文件分类
+ * @memberof BaaS
+ * @extends BaaS.BaseQuery
+ * @public
+ */
+class FileCategory extends BaseQuery {
+  constructor() {
+    super()
+  }
 
-    <h3> </h3>
+  /**
+   * 获取文件分类详情。
+   * @method
+   * @param {string} categoryID 文件分类 ID
+   * @return {Promise&lt;any>}
+   */
+  get(categoryID) {
+    return BaaS.getFileCategoryDetail({categoryID})
+  }
 
+  /**
+   * 通过文件分类 ID 获取分类下的所有文件。
+   * @method
+   * @param {string} categoryID 文件分类 ID
+   * @return {Promise&lt;any>}
+   */
+  getFileList(categoryID) {
+    let query = new Query()
+    query.in('category_id', [categoryID])
+    return BaaS.getFileList({where: JSON.stringify(query.queryObject)})
+  }
 
+  /**
+   * 获取文件分类列表。
+   * @method
+   * @return {Promise&lt;any>}
+   */
+  find() {
+    let condition = this._handleAllQueryConditions()
+    this._initQueryParams()
+    return BaaS.getFileCategoryList(condition)
+  }
+}
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = FileCategory
+</code></pre>
+        </article>
+    </section>
 
 
 

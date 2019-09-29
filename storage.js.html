@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: storage.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,47 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: storage.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const storageKeyPrefix = 'ifx_baas_'
 
+/**
+ * 本地存储
+ * @namespace storage
+ * @memberof BaaS
+ */
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = {
+  /**
+   * 存入数据
+   * @memberof BaaS.storage
+   * @param {string} key 键
+   * @param {any} value 值
+   */
+  set: (key, value) => {
+    BaaS._polyfill.setStorageSync(storageKeyPrefix + key, value)
+  },
+  /**
+   * 读取数据
+   * @memberof BaaS.storage
+   * @param {string} key 键
+   * @return {any}
+   */
+  get: (key) => {
+    return BaaS._polyfill.getStorageSync(storageKeyPrefix + key)
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

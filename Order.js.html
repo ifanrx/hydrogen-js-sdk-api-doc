@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: User.js</title>
+    <title>JSDoc: Source: Order.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: User.js</h1>
+    <h1 class="page-title">Source: Order.js</h1>
 
     
 
@@ -27,58 +27,52 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
-const BaseQuery = require('./BaseQuery')
-const UserRecord = require('./UserRecord')
 const utils = require('./utils')
-const HError = require('./HError')
+const BaseQuery = require('./BaseQuery')
 
 /**
+ * 支付订单
  * @memberof BaaS
  * @extends BaaS.BaseQuery
  * @public
  */
-class User extends BaseQuery {
-  constructor() {
-    super()
-  }
-
-  get(userID) {
-    let params = {userID}
-    if (this._expand) {
-      params.expand = this._expand
-    }
-
-    if (this._keys) {
-      params.keys = this._keys
-    }
-    this._initQueryParams()
-    return BaaS.getUserDetail(params)
-  }
-
-  getWithoutData(userID) {
-    if (utils.isString(userID) || Number.isInteger(userID)) {
-      return new UserRecord(userID)
-    } else {
-      throw new HError(605)
-    }
+class Order extends BaseQuery {
+  /**
+   * 获取支付订单详情。
+   * @method
+   * @param {string} transactionID 支付流水 ID
+   * @return {Promise&lt;any>}
+   */
+  get(transactionID) {
+    const API = BaaS._config.API
+    let url = utils.format(API.ORDER, {transactionID: transactionID})
+    return BaaS._baasRequest({url})
   }
 
   /**
-   *
-   * @returns {UserRecord}
+   * @typedef GetOrderListParams
+   * @property {string} merchandise_record_id 商品记录 ID，可用于定位用户购买的物品
+   * @property {number} merchandise_schema_id 商品表 ID，可用于定位用户购买的物品
+   * @property {'complete'|'pending'|'success'|'partial'} status 订单支付状态
+   * @property {string} trade_no 真正的交易 ID, 业务方在服务方后台对账时可看到此字段
+   * @property {string} transactionID 知晓云平台所记录的流水号
+   * @property {string} gateway_type 支付方法，可选值有：weixin_tenpay（微信支付）、alipay（支付宝支付）等
    */
-  getCurrentUserWithoutData() {
-    return new UserRecord()
-  }
 
-  find() {
-    let condition = this._handleAllQueryConditions()
+  /**
+   * 获取支付订单列表。
+   * @method
+   * @param {GetOrderListParams} params 筛选参数
+   * @return {Promise&lt;any>}
+   */
+  getOrderList(params = {}) {
+    let condition = Object.assign({}, this._handleAllQueryConditions(), params)
     this._initQueryParams()
-    return BaaS.getUserList(condition)
+    return BaaS.getOrderList(Object.assign(condition, params))
   }
 }
 
-module.exports = User
+module.exports = Order
 </code></pre>
         </article>
     </section>
