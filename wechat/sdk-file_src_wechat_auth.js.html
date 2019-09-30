@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: sdk-file/src/wechat/auth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: sdk-file/src/wechat/auth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const constants = require('core-module/constants')
+const HError = require('core-module/HError')
+const storage = require('core-module/storage')
+const utils = require('core-module/utils')
+const commonAuth = require('core-module/auth')
+
+/**
+ * @typedef UserInfoDetail
+ * @property {object} userInfo 用户信息对象，不包含 openid 等敏感信息
+ * @property {string} rawData 不包括敏感信息的原始数据字符串，用于计算签名
+ * @property {string} signature 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息
+ * @property {string} encryptedData 包括敏感数据在内的完整用户信息的加密数据
+ * @property {string} iv 加密算法的初始向量
+ */
+
+/**
+ * @typedef AuthData
+ * @property {UserInfoDetail} detail 用户信息
+ */
+
+module.exports = BaaS => {
+  const polyfill = BaaS._polyfill
+  const API = BaaS._config.API
+
+  const getLoginCode = () => {
+    return new Promise((resolve, reject) => {
+      polyfill.wxLogin({
+        success: res => {
+          resolve(res.code)
+        },
+        fail: () => {
+          BaaS.request.wxRequestFail(reject)
+        },
+      })
+    })
+  }
+
+  // 获取登录凭证 code, 进而换取用户登录态信息
+  const auth = ({createUser = true} = {}) => {
+    return new Promise((resolve, reject) => {
+      getLoginCode().then(code => {
+        sessionInit({code, createUser}, resolve, reject)
+      }, reject)
+    })
+  }
+
+  // code 换取 session_key，生成并获取 3rd_session 即 token
+  const sessionInit = ({code, createUser}, resolve, reject) => {
+    return BaaS.request({
+      url: API.WECHAT.SILENT_LOGIN,
+      method: 'POST',
+      data: {
+        create_user: createUser,
+        code: code
+      }
+    }).then(utils.validateStatusCode).then(res => {
+      BaaS._polyfill.handleLoginSuccess(res)
+      resolve(res)
+    }, reject)
+  }
+
+  /*
+   * v2.0.8-a 中存在的 bug:
+   * 如果调用 silentLogin（直接调用或在 autoLogin 为 ture 的情况下，401 错误后自动调用），
+   * 并且同时调用 loginWithWechat，会发出两个 silent_login 的请求，可能会造成后端同时创建两个用户。
+   * 因此，直接在 silentLogin 处做并发限制（loginWithWechat 会调用这个 silentLogin）。
+   */
+  /**
+   * 静默登录
+   * @function
+   * @memberof BaaS.auth
+   */
+  const silentLogin = utils.rateLimit(function (...args) {
+    if (storage.get(constants.STORAGE_KEY.AUTH_TOKEN) &amp;&amp; !utils.isSessionExpired()) {
+      return Promise.resolve()
+    }
+    return auth(...args)
+  })
+
+  // 提供给开发者在 button (open-type="getUserInfo") 的回调中调用，对加密数据进行解密，同时将 userinfo 存入 storage 中
+  /**
+   * 获取用户信息
+   * @deprecated
+   * @function
+   * @memberof BaaS.auth
+   * @param {object} options 参数
+   * @param {UserInfoDetail} options.detail 用户信息
+   * @param {boolean} options.createUser 是否创建用户
+   * @param {boolean} options.syncUserProfile 是否同步第一层级用户信息
+   */
+  const handleUserInfo = res => {
+    if (!res || !res.detail) {
+      throw new HError(603)
+    }
+
+    let detail = res.detail
+    let createUser = !!res.createUser
+    let syncUserProfile = res.syncUserProfile
+
+    // 用户拒绝授权，仅返回 uid, openid 和 unionid
+    // 2019-1-21： 将其封装为 HError 对象，同时输出原有字段
+    if (!detail.userInfo) {
+      return Promise.reject(Object.assign(new HError(603), {
+        id: storage.get(constants.STORAGE_KEY.UID),
+        openid: storage.get(constants.STORAGE_KEY.OPENID),
+        unionid: storage.get(constants.STORAGE_KEY.UNIONID),
+      }))
+    }
+
+    return getLoginCode().then(code => {
+      return getUserInfo({lang: detail.userInfo.language}).then(detail => {
+        let payload = {
+          code,
+          create_user: createUser,
+          rawData: detail.rawData,
+          signature: detail.signature,
+          encryptedData: detail.encryptedData,
+          iv: detail.iv,
+          update_userprofile: utils.getUpdateUserProfileParam(syncUserProfile),
+        }
+
+        let userInfo = detail.userInfo
+        userInfo.id = storage.get(constants.STORAGE_KEY.UID)
+        userInfo.openid = storage.get(constants.STORAGE_KEY.OPENID)
+        userInfo.unionid = storage.get(constants.STORAGE_KEY.UNIONID)
+        storage.set(constants.STORAGE_KEY.USERINFO, userInfo)
+        return getSensitiveData(payload)
+      })
+    }).then(res => {
+      BaaS._polyfill.handleLoginSuccess(res)
+    })
+  }
+
+  // 上传 signature 和 encryptedData 等信息，用于校验数据的完整性及解密数据，获取 unionid 等敏感数据
+  const getSensitiveData = (data) => {
+    return BaaS.request({
+      url: API.WECHAT.AUTHENTICATE,
+      method: 'POST',
+      data,
+    }).then(utils.validateStatusCode)
+  }
+
+  const getUserInfo = ({lang} = {}) => {
+    return new Promise((resolve, reject) => {
+      BaaS._polyfill.wxGetUserInfo({
+        lang,
+        success: resolve, fail: reject
+      })
+    })
+  }
+
+  /**
+   * @typedef LinkOptions
+   * @property {boolean} syncUserProfile 是否同步第一层级用户信息
+   */
+
+  /**
+   * 关联微信账号
+   * @function
+   * @since v2.0.0
+   * @memberof BaaS.auth
+   * @param {AuthData|null} authData 用户信息
+   * @param {LinkOptions} params 用户信息参数
+   */
+  const linkWechat = (res, {
+    syncUserProfile = constants.UPDATE_USERPROFILE_VALUE.SETNX,
+  } = {}) => {
+    let refreshUserInfo = false
+    if (res &amp;&amp; res.detail &amp;&amp; res.detail.userInfo) {
+      refreshUserInfo = true
+    }
+
+    return getLoginCode().then(code => {
+      // 如果用户传递了授权信息，则重新获取一次 userInfo, 避免因为重新获取 code 导致 session 失效而解密失败
+      let getUserInfoPromise = refreshUserInfo
+        ? getUserInfo({lang: res.detail.userInfo.language})
+        : Promise.resolve(null)
+
+      return getUserInfoPromise.then(res => {
+        let payload = res ? {
+          rawData: res.rawData,
+          signature: res.signature,
+          encryptedData: res.encryptedData,
+          iv: res.iv,
+          update_userprofile: utils.getUpdateUserProfileParam(syncUserProfile),
+          code
+        } : {code}
+
+        return BaaS._baasRequest({
+          method: 'POST',
+          url: API.WECHAT.USER_ASSOCIATE,
+          data: payload
+        })
+      })
+    })
+  }
+
+  /**
+   * @typedef LoginOptions
+   * @property {boolean} createUser 是否创建用户
+   * @property {boolean} syncUserProfile 是否同步第一层级用户信息
+   */
+
+  /**
+   * 强制登录
+   * @function
+   * @since v2.0.0
+   * @memberof BaaS.auth
+   * @param {AuthData|null} authData 用户信息
+   * @param {LoginOptions} options 其他选项
+   */
+  const loginWithWechat = (authData, {
+    createUser = true,
+    syncUserProfile = constants.UPDATE_USERPROFILE_VALUE.SETNX,
+  } = {}) => {
+    let loginPromise = null
+    if (authData &amp;&amp; authData.detail) {
+      // handleUserInfo 流程
+      loginPromise = handleUserInfo(Object.assign(authData, {createUser, syncUserProfile}))
+    } else {
+      // 静默登录流程
+      loginPromise = silentLogin({createUser})
+    }
+
+    return loginPromise.then(() => commonAuth.getCurrentUser())
+  }
+
+  Object.assign(BaaS.auth, {
+    silentLogin,
+    loginWithWechat: utils.rateLimit(loginWithWechat),
+    handleUserInfo: utils.rateLimit(handleUserInfo),
+    linkWechat: utils.rateLimit(linkWechat),
+  })
+
+
+  /*
+   * 兼容原有的 API
+   */
+
+  /**
+   * 微信登录（仅支持静默登录）
+   * @deprecated since v2.0.0
+   * @function
+   * @memberof BaaS
+   * @param {boolean} forceLogin 是否是强制登录
+   * @return {Promive&lt;any>}
+   */
+  BaaS.login = function (args) {
+    if (args === false) {
+      return silentLogin().then(() => ({
+        id: storage.get(constants.STORAGE_KEY.UID),
+        openid: storage.get(constants.STORAGE_KEY.OPENID),
+        unionid: storage.get(constants.STORAGE_KEY.UNIONID),
+        [constants.STORAGE_KEY.EXPIRES_AT]: storage.get(constants.STORAGE_KEY.EXPIRES_AT),
+      }))
+    } else {
+      return Promise.reject(new HError(605))
+    }
+  }
+
+  /**
+   * 获取用户信息
+   * @deprecated since v2.0.0
+   * @function
+   * @memberof BaaS
+   * @param {object} options 参数
+   * @param {UserInfoDetail} options.detail 用户信息
+   * @param {boolean} options.createUser 是否创建用户
+   * @param {boolean} options.syncUserProfile 是否同步第一层级用户信息
+   * @return {Promive&lt;any>}
+   */
+  BaaS.handleUserInfo = function (res) {
+    return BaaS.auth.handleUserInfo(res).then(() => commonAuth.getCurrentUser()).then(user => {
+      return user.toJSON()
+    })
+  }
+
+  /**
+   * 退出登录状态
+   * @deprecated since v2.0.0
+   * @function
+   * @memberof BaaS
+   * @return {Promise&lt;any>}
+   */
+  BaaS.logout = BaaS.auth.logout
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li><li><a href="HError.html">HError</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Sep 30 2019 07:36:12 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
