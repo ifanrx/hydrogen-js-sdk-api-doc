@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: sdk-file/src/wechat/auth.js</title>
+    <title>JSDoc: Source: sdk-file/src/qq/auth.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: sdk-file/src/wechat/auth.js</h1>
+    <h1 class="page-title">Source: sdk-file/src/qq/auth.js</h1>
 
     
 
@@ -32,19 +32,18 @@ const storage = require('core-module/storage')
 const utils = require('core-module/utils')
 const commonAuth = require('core-module/auth')
 
-
 module.exports = BaaS => {
   const polyfill = BaaS._polyfill
   const API = BaaS._config.API
 
   const getLoginCode = () => {
     return new Promise((resolve, reject) => {
-      polyfill.wxLogin({
+      qq.login({
         success: res => {
           resolve(res.code)
         },
         fail: () => {
-          BaaS.request.wxRequestFail(reject)
+          BaaS.request.qqRequestFail(reject)
         },
       })
     })
@@ -62,7 +61,7 @@ module.exports = BaaS => {
   // code 换取 session_key，生成并获取 3rd_session 即 token
   const sessionInit = ({code, createUser}, resolve, reject) => {
     return BaaS.request({
-      url: API.WECHAT.SILENT_LOGIN,
+      url: API.QQ.SILENT_LOGIN,
       method: 'POST',
       data: {
         create_user: createUser,
@@ -74,17 +73,6 @@ module.exports = BaaS => {
     }, reject)
   }
 
-  /*
-   * v2.0.8-a 中存在的 bug:
-   * 如果调用 silentLogin（直接调用或在 autoLogin 为 ture 的情况下，401 错误后自动调用），
-   * 并且同时调用 loginWithWechat，会发出两个 silent_login 的请求，可能会造成后端同时创建两个用户。
-   * 因此，直接在 silentLogin 处做并发限制（loginWithWechat 会调用这个 silentLogin）。
-   */
-  /**
-   * 静默登录
-   * @function
-   * @memberof BaaS.auth
-   */
   const silentLogin = utils.rateLimit(function (...args) {
     if (storage.get(constants.STORAGE_KEY.AUTH_TOKEN) &amp;&amp; !utils.isSessionExpired()) {
       return Promise.resolve()
@@ -92,15 +80,24 @@ module.exports = BaaS => {
     return auth(...args)
   })
 
+  const getSensitiveData = (data) => {
+    return BaaS.request({
+      url: API.QQ.AUTHENTICATE,
+      method: 'POST',
+      data,
+    }).then(utils.validateStatusCode)
+  }
+
+  const getUserInfo = ({lang} = {}) => {
+    return new Promise((resolve, reject) => {
+      qq.getUserInfo({
+        lang,
+        success: resolve, fail: reject
+      })
+    })
+  }
+
   // 提供给开发者在 button (open-type="getUserInfo") 的回调中调用，对加密数据进行解密，同时将 userinfo 存入 storage 中
-  /**
-   * 获取用户信息
-   * @deprecated
-   * @function
-   * @memberof BaaS.auth
-   * @param {BaaS.handleUserInfoOptions} options 参数
-   * @return {Promive&lt;any>}
-   */
   const handleUserInfo = res => {
     if (!res || !res.detail) {
       throw new HError(603)
@@ -110,13 +107,11 @@ module.exports = BaaS => {
     let createUser = !!res.createUser
     let syncUserProfile = res.syncUserProfile
 
-    // 用户拒绝授权，仅返回 uid, openid 和 unionid
-    // 2019-1-21： 将其封装为 HError 对象，同时输出原有字段
+    // 用户拒绝授权，仅返回 uid, openid
     if (!detail.userInfo) {
       return Promise.reject(Object.assign(new HError(603), {
         id: storage.get(constants.STORAGE_KEY.UID),
         openid: storage.get(constants.STORAGE_KEY.OPENID),
-        unionid: storage.get(constants.STORAGE_KEY.UNIONID),
       }))
     }
 
@@ -131,12 +126,6 @@ module.exports = BaaS => {
           iv: detail.iv,
           update_userprofile: utils.getUpdateUserProfileParam(syncUserProfile),
         }
-
-        let userInfo = detail.userInfo
-        userInfo.id = storage.get(constants.STORAGE_KEY.UID)
-        userInfo.openid = storage.get(constants.STORAGE_KEY.OPENID)
-        userInfo.unionid = storage.get(constants.STORAGE_KEY.UNIONID)
-        storage.set(constants.STORAGE_KEY.USERINFO, userInfo)
         return getSensitiveData(payload)
       })
     }).then(res => {
@@ -144,33 +133,15 @@ module.exports = BaaS => {
     })
   }
 
-  // 上传 signature 和 encryptedData 等信息，用于校验数据的完整性及解密数据，获取 unionid 等敏感数据
-  const getSensitiveData = (data) => {
-    return BaaS.request({
-      url: API.WECHAT.AUTHENTICATE,
-      method: 'POST',
-      data,
-    }).then(utils.validateStatusCode)
-  }
-
-  const getUserInfo = ({lang} = {}) => {
-    return new Promise((resolve, reject) => {
-      BaaS._polyfill.wxGetUserInfo({
-        lang,
-        success: resolve, fail: reject
-      })
-    })
-  }
-
   /**
-   * 关联微信账号
+   * 关联 QQ 账号
    * @function
-   * @since v2.0.0
+   * @since v2.2.0
    * @memberof BaaS.auth
    * @param {BaaS.AuthData|null} authData 用户信息
    * @param {BaaS.LinkOptions} params 用户信息参数
    */
-  const linkWechat = (res, {
+  const linkQQ = (res, {
     syncUserProfile = constants.UPDATE_USERPROFILE_VALUE.SETNX,
   } = {}) => {
     let refreshUserInfo = false
@@ -196,24 +167,23 @@ module.exports = BaaS => {
 
         return BaaS._baasRequest({
           method: 'POST',
-          url: API.WECHAT.USER_ASSOCIATE,
-          data: payload
+          url: API.QQ.USER_ASSOCIATE,
+          data: payload,
         })
       })
     })
   }
 
-
   /**
-   * 微信登录
+   * QQ 登录
    * @function
-   * @since v2.0.0
+   * @since v2.2.0
    * @memberof BaaS.auth
    * @param {BaaS.AuthData|null} authData 用户信息，值为 null 时是静默登录
    * @param {BaaS.LoginOptions} options 其他选项
    * @return {Promise&lt;UserRecord>}
    */
-  const loginWithWechat = (authData, {
+  const loginWithQQ = (authData, {
     createUser = true,
     syncUserProfile = constants.UPDATE_USERPROFILE_VALUE.SETNX,
   } = {}) => {
@@ -231,59 +201,9 @@ module.exports = BaaS => {
 
   Object.assign(BaaS.auth, {
     silentLogin,
-    loginWithWechat: utils.rateLimit(loginWithWechat),
-    handleUserInfo: utils.rateLimit(handleUserInfo),
-    linkWechat: utils.rateLimit(linkWechat),
+    loginWithQQ: utils.rateLimit(loginWithQQ),
+    linkQQ: utils.rateLimit(linkQQ),
   })
-
-
-  /*
-   * 兼容原有的 API
-   */
-
-  /**
-   * 微信登录（仅支持静默登录）
-   * @deprecated since v2.0.0
-   * @function
-   * @memberof BaaS
-   * @param {boolean} forceLogin 是否是强制登录
-   * @return {Promive&lt;any>}
-   */
-  BaaS.login = function (args) {
-    if (args === false) {
-      return silentLogin().then(() => ({
-        id: storage.get(constants.STORAGE_KEY.UID),
-        openid: storage.get(constants.STORAGE_KEY.OPENID),
-        unionid: storage.get(constants.STORAGE_KEY.UNIONID),
-        [constants.STORAGE_KEY.EXPIRES_AT]: storage.get(constants.STORAGE_KEY.EXPIRES_AT),
-      }))
-    } else {
-      return Promise.reject(new HError(605))
-    }
-  }
-
-  /**
-   * 获取用户信息
-   * @deprecated since v2.0.0
-   * @function
-   * @memberof BaaS
-   * @param {BaaS.handleUserInfoOptions} options 参数
-   * @return {Promive&lt;any>}
-   */
-  BaaS.handleUserInfo = function (res) {
-    return BaaS.auth.handleUserInfo(res).then(() => commonAuth.getCurrentUser()).then(user => {
-      return user.toJSON()
-    })
-  }
-
-  /**
-   * 退出登录状态
-   * @deprecated since v2.0.0
-   * @function
-   * @memberof BaaS
-   * @return {Promise&lt;any>}
-   */
-  BaaS.logout = BaaS.auth.logout
 }
 </code></pre>
         </article>
@@ -301,7 +221,7 @@ module.exports = BaaS => {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Oct 10 2019 10:36:37 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Oct 10 2019 10:36:40 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

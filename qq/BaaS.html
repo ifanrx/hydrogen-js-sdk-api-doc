@@ -154,9 +154,6 @@
             <dt><a href="BaaS.auth.html">auth</a></dt>
             <dd></dd>
         
-            <dt><a href="BaaS.payment.html">payment</a></dt>
-            <dd></dd>
-        
             <dt><a href="BaaS.storage.html">storage</a></dt>
             <dd></dd>
         </dl>
@@ -387,6 +384,210 @@
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".decryptData"><span class="type-signature">(static) </span>decryptData<span class="signature">(encryptedData, iv, type)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    QQ 加密数据解密
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>encryptedData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">加密的数据</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">加密算法的初始向量</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">数据类型</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v2.4.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_qq_decryptData.js.html">sdk-file/src/qq/decryptData.js</a>, <a href="sdk-file_src_qq_decryptData.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -915,7 +1116,305 @@
     
 
     
-    <h4 class="name" id=".module.exports"><span class="type-signature">(static) </span>module.exports<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
+    <h4 class="name" id=".pay"><span class="type-signature">(static) </span>pay<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    QQ 支付
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="BaaS.html#.PaymentParams">BaaS.PaymentParams</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">参数</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v2.4.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_qq_pay.js.html">sdk-file/src/qq/pay.js</a>, <a href="sdk-file_src_qq_pay.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".reportTemplateMsgAnalytics"><span class="type-signature">(static) </span>reportTemplateMsgAnalytics<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    上报模板消息卡片点击事件
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">onShow 方法中的 options 参数</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v2.2.1</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_qq_reportTemplateMsgAnalytics.js.html">sdk-file/src/qq/reportTemplateMsgAnalytics.js</a>, <a href="sdk-file_src_qq_reportTemplateMsgAnalytics.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".request"><span class="type-signature">(static) </span>request<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -1016,7 +1515,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_request.js.html">sdk-file/src/web/request.js</a>, <a href="sdk-file_src_web_request.js.html#line20">line 20</a>
+        <a href="sdk-file_src_qq_request.js.html">sdk-file/src/qq/request.js</a>, <a href="sdk-file_src_qq_request.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -1070,7 +1569,7 @@
     
 
     
-    <h4 class="name" id=".uploadFile"><span class="type-signature">(static) </span>uploadFile<span class="signature">(fileParams, metaData)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".uploadFile"><span class="type-signature">(static) </span>uploadFile<span class="signature">(fileParams, metaData, type)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -1157,6 +1656,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">文件类型</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1194,7 +1716,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_uploadFile.js.html">sdk-file/src/web/uploadFile.js</a>, <a href="sdk-file_src_web_uploadFile.js.html#line14">line 14</a>
+        <a href="sdk-file_src_qq_uploadFile.js.html">sdk-file/src/qq/uploadFile.js</a>, <a href="sdk-file_src_qq_uploadFile.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -4473,97 +4995,10 @@
         </tr>
 
     
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_types.js.html">sdk-file/src/web/types.js</a>, <a href="sdk-file_src_web_types.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".RedirectLoginResult">RedirectLoginResult</h4>
-
-
-
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
 
         <tr>
             
-                <td class="name"><code>status</code></td>
+                <td class="name"><code>profitSharing</code></td>
             
 
             <td class="type">
@@ -4576,79 +5011,18 @@
             </td>
 
             
-
-            
-
-            <td class="description last">状态。 'success' / 'fail'</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>action</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">操作。'login'(第三方登录) / 'associate'(关联第三方账号)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>action</code></td>
-            
-
-            <td class="type">
-            
+                    &lt;optional><br>
                 
-<span class="param-type">string</span>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">操作。'login'(第三方登录) / 'associate'(关联第三方账号)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">UserRecord</span>
-
-
-            
-            </td>
-
+                </td>
             
 
             
 
-            <td class="description last">当前用户对象，仅 status 为 'success' 且 action 为 'login' 时返回</td>
+            <td class="description last">当前订单是否需要分账</td>
         </tr>
 
     
@@ -4687,7 +5061,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_types.js.html">sdk-file/src/web/types.js</a>, <a href="sdk-file_src_web_types.js.html#line13">line 13</a>
+        <a href="sdk-file_src_qq_types.js.html">sdk-file/src/qq/types.js</a>, <a href="sdk-file_src_qq_types.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -5002,7 +5376,7 @@
 
         <tr>
             
-                <td class="name"><code>headers</code></td>
+                <td class="name"><code>header</code></td>
             
 
             <td class="type">
@@ -5103,7 +5477,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_types.js.html">sdk-file/src/web/types.js</a>, <a href="sdk-file_src_web_types.js.html#line22">line 22</a>
+        <a href="sdk-file_src_qq_types.js.html">sdk-file/src/qq/types.js</a>, <a href="sdk-file_src_qq_types.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -5378,312 +5752,6 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="core_types.js.html">core/types.js</a>, <a href="core_types.js.html#line265">line 265</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".ThirdPartyLoginOptions">ThirdPartyLoginOptions</h4>
-
-
-
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>createUser</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">是否创建用户</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>syncUserProfile</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">是否同步第一层级用户信息</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>debug</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">是否开启 debug 模式</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">授权窗口打开模式</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>authModalStyle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">popup-iframe 模式下，授权模态框的样式</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>wechatIframeContentStyle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">微信 web 授权，在 popup-iframe 模式下，微信授权页面的样式</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>windowFeatures</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">popup-window 模式下，授权窗口的特性，详见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/open">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/open</a></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_types.js.html">sdk-file/src/web/types.js</a>, <a href="sdk-file_src_web_types.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -8065,281 +8133,6 @@
 
 
             
-                
-<h4 class="name" id=".WechatPaymentParams">WechatPaymentParams</h4>
-
-
-
-
-<div class="description">
-    支付参数
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>merchandiseDescription</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">微信支付凭证-商品详情的内容</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>totalCost</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">支付总额，单位：元</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>merchandiseSchemaID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">商品数据表 ID，可用于定位用户购买的物品</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>merchandiseRecordID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">商品数据行 ID，可用于定位用户购买的物品</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>merchandiseSnapshot</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">根据业务需求自定义的数据</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>profitSharing</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">当前订单是否需要分账</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_web_types.js.html">sdk-file/src/web/types.js</a>, <a href="sdk-file_src_web_types.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
     
 
     
@@ -8353,13 +8146,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.payment.html">payment</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.HError.html">HError</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.HError.html">HError</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Oct 10 2019 10:27:53 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Oct 10 2019 10:36:40 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
