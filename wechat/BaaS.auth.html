@@ -276,7 +276,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line149">line 149</a>
+        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -651,7 +651,7 @@
     
 
     
-    <h4 class="name" id=".loginWithSmsVerificationCode"><span class="type-signature">(static) </span>loginWithSmsVerificationCode<span class="signature">(mobilePhone, smsCode, options)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.CurrentUser.html">BaaS.CurrentUser</a>>}</span></h4>
+    <h4 class="name" id=".loginWithSmsVerificationCode"><span class="type-signature">(static) </span>loginWithSmsVerificationCode<span class="signature">(mobilePhone, smsCode, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.CurrentUser.html">BaaS.CurrentUser</a>>}</span></h4>
     
 
     
@@ -683,6 +683,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -708,6 +710,14 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -730,6 +740,14 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -754,10 +772,20 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">可选配置</td>
         </tr>
 
     
@@ -801,7 +829,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line171">line 171</a>
+        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line172">line 172</a>
     </li></ul></dd>
     
 
@@ -1061,7 +1089,7 @@
     
 
     
-    <h4 class="name" id=".logout"><span class="type-signature">(static) </span>logout<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".logout"><span class="type-signature">(static) </span>logout<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -1152,7 +1180,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -1334,7 +1362,7 @@
     
 
     
-    <h4 class="name" id=".requestPasswordReset"><span class="type-signature">(static) </span>requestPasswordReset<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".requestPasswordReset"><span class="type-signature">(static) </span>requestPasswordReset<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -1351,6 +1379,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="BaaS.html#.PasswordResetParam">BaaS.PasswordResetParam</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">账号信息</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1389,7 +1466,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line135">line 135</a>
+        <a href="core_auth.js.html">core/auth.js</a>, <a href="core_auth.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -1425,7 +1502,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -1443,95 +1520,7 @@
     
 
     
-    <h4 class="name" id=".silentLogin"><span class="type-signature">(static) </span>silentLogin<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    静默登录
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line60">line 60</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".silentLogin"><span class="type-signature">(static) </span>silentLogin<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.CurrentUser.html">BaaS.CurrentUser</a>>}</span></h4>
+    <h4 class="name" id=".silentLogin1"><span class="type-signature">(static) </span>silentLogin<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.CurrentUser.html">BaaS.CurrentUser</a>>}</span></h4>
     
 
     
@@ -1635,6 +1624,94 @@
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id=".silentLogin2"><span class="type-signature">(static) </span>silentLogin<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    静默登录
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     
 
     
@@ -1656,7 +1733,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Oct 11 2019 10:49:15 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Oct 12 2019 09:44:42 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature">(package) </span></span>
-            <span class="ancestors"><a href="BaaS.html">BaaS</a>~</span>TableRecord<span class="signature">()</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="BaaS.html">BaaS</a>~</span>TableRecord<span class="signature">(tableName, recordID, queryObject<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">数据记录</div>
         
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="TableRecord"><span class="type-signature">(package) </span>new TableRecord<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="TableRecord"><span class="type-signature">(package) </span>new TableRecord<span class="signature">(tableName, recordID, queryObject<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -59,6 +59,129 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tableName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">数据表名</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>recordID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">数据记录 ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>queryObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">查询对象</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -94,7 +217,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line12">line 12</a>
+        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -417,7 +540,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
             
@@ -893,7 +1016,7 @@
     
 
     
-    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -945,7 +1068,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line22">line 22</a>
+        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -981,7 +1104,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -999,7 +1122,7 @@
     
 
     
-    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="setparticialRecord"><span class="type-signature"></span>set<span class="signature">(particialRecord)</span><span class="type-signature"> &rarr; {this}</span></h4>
     
 
     
@@ -1043,13 +1166,13 @@
 
         <tr>
             
-                <td class="name"><code>key</code></td>
+                <td class="name"><code>particialRecord</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object.&lt;string, any></span>
 
 
             
@@ -1059,30 +1182,7 @@
 
             
 
-            <td class="description last">字段名称</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">值</td>
+            <td class="description last">由字段名称与值组成的键值对对象</td>
         </tr>
 
     
@@ -1105,7 +1205,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="BaaS.BaseRecord.html#set">BaaS.BaseRecord#set</a>
+        <a href="BaaS.BaseRecord.html#setparticialRecord">BaaS.BaseRecord#set(particialRecord)</a>
     </li></ul></dd>
     
 
@@ -1255,6 +1355,9 @@
             <td class="type">
             
                 
+<span class="param-type">Array.&lt;string></span>
+|
+
 <span class="param-type">string</span>
 
 
@@ -1365,7 +1468,7 @@
     
 
     
-    <h4 class="name" id="unset"><span class="type-signature"></span>unset<span class="signature">(key)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="unsetkey"><span class="type-signature"></span>unset<span class="signature">(key)</span><span class="type-signature"> &rarr; {this}</span></h4>
     
 
     
@@ -1448,7 +1551,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="BaaS.BaseRecord.html#unset">BaaS.BaseRecord#unset</a>
+        <a href="BaaS.BaseRecord.html#unsetkey">BaaS.BaseRecord#unset(key)</a>
     </li></ul></dd>
     
 
@@ -1525,7 +1628,167 @@
     
 
     
-    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="unsetparticialRecord"><span class="type-signature"></span>unset<span class="signature">(particialRecord)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    移除属性
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>particialRecord</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, any></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">由字段名称与值组成的键值对对象</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BaaS.BaseRecord.html#unsetparticialRecord">BaaS.BaseRecord#unset(particialRecord)</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_BaseRecord.js.html">core/BaseRecord.js</a>, <a href="core_BaseRecord.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">this</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -1638,7 +1901,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line33">line 33</a>
+        <a href="core_TableRecord.js.html">core/TableRecord.js</a>, <a href="core_TableRecord.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -1674,7 +1937,190 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setkey,value"><span class="type-signature"></span>set<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    设置属性
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">字段名称</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">值</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BaaS.BaseRecord.html#setkey,value">BaaS.BaseRecord#set(key, value)</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_BaseRecord.js.html">core/BaseRecord.js</a>, <a href="core_BaseRecord.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">this</span>
 
 
     </dd>
@@ -1708,7 +2154,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Oct 11 2019 10:49:18 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Oct 12 2019 09:44:45 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

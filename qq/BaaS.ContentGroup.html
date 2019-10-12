@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="BaaS.html">BaaS</a>~</span>ContentGroup<span class="signature">()</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="BaaS.html">BaaS</a>~</span>ContentGroup<span class="signature">(contentGroupID)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">内容库</div>
         
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="ContentGroup"><span class="type-signature"></span>new ContentGroup<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ContentGroup"><span class="type-signature"></span>new ContentGroup<span class="signature">(contentGroupID)</span><span class="type-signature"></span></h4>
     
 
     
@@ -59,6 +59,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contentGroupID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">内容库 ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -94,7 +143,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line12">line 12</a>
+        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -161,7 +210,7 @@
     
 
     
-    <h4 class="name" id="expand"><span class="type-signature"></span>expand<span class="signature">(&hellip;key)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="expand"><span class="type-signature"></span>expand<span class="signature">(key)</span><span class="type-signature"> &rarr; {this}</span></h4>
     
 
     
@@ -193,8 +242,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -214,21 +261,14 @@
             
                 
 <span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">string</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
             
 
             
@@ -333,7 +373,7 @@
     
 
     
-    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -385,7 +425,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line41">line 41</a>
+        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -421,7 +461,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -439,7 +479,7 @@
     
 
     
-    <h4 class="name" id="getCategory"><span class="type-signature"></span>getCategory<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="getCategory"><span class="type-signature"></span>getCategory<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -491,7 +531,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line62">line 62</a>
+        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -527,7 +567,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -545,7 +585,7 @@
     
 
     
-    <h4 class="name" id="getCategoryList"><span class="type-signature"></span>getCategoryList<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="getCategoryList"><span class="type-signature"></span>getCategoryList<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -597,7 +637,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line53">line 53</a>
+        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -633,7 +673,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -651,7 +691,7 @@
     
 
     
-    <h4 class="name" id="getContent"><span class="type-signature"></span>getContent<span class="signature">(richTextID)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="getContent"><span class="type-signature"></span>getContent<span class="signature">(richTextID)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -752,7 +792,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line23">line 23</a>
+        <a href="core_ContentGroup.js.html">core/ContentGroup.js</a>, <a href="core_ContentGroup.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -788,7 +828,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -1126,7 +1166,7 @@
     
 
     
-    <h4 class="name" id="orderBy"><span class="type-signature"></span>orderBy<span class="signature">(&hellip;key)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="orderBy"><span class="type-signature"></span>orderBy<span class="signature">(key)</span><span class="type-signature"> &rarr; {this}</span></h4>
     
 
     
@@ -1158,8 +1198,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -1179,21 +1217,14 @@
             
                 
 <span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">string</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
             
 
             
@@ -1298,7 +1329,7 @@
     
 
     
-    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(&hellip;key)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(key)</span><span class="type-signature"> &rarr; {this}</span></h4>
     
 
     
@@ -1330,8 +1361,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -1351,21 +1380,14 @@
             
                 
 <span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">string</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
             
 
             
@@ -1646,7 +1668,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Oct 11 2019 10:49:18 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Oct 12 2019 09:44:45 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
