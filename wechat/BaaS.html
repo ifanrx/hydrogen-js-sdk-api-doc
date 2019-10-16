@@ -173,7 +173,7 @@
     
 
     
-    <h4 class="name" id=".censorAsync"><span class="type-signature">(static) </span>censorAsync<span class="signature">(fileID)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>}</span></h4>
+    <h4 class="name" id=".censorAsync"><span class="type-signature">(static) </span>censorAsync<span class="signature">(fileID)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>>}</span></h4>
     
 
     
@@ -313,7 +313,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>></span>
 
 
     </dd>
@@ -662,7 +662,7 @@
     
 
     
-    <h4 class="name" id=".getCensorResult"><span class="type-signature">(static) </span>getCensorResult<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>}</span></h4>
+    <h4 class="name" id=".getCensorResult"><span class="type-signature">(static) </span>getCensorResult<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>>}</span></h4>
     
 
     
@@ -713,6 +713,9 @@
             
                 
 <span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
 
 
             
@@ -802,7 +805,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;<a href="BaaS.html#.CensorAsyncResult">BaaS.CensorAsyncResult</a>>></span>
 
 
     </dd>
@@ -820,7 +823,7 @@
     
 
     
-    <h4 class="name" id=".getWXACode"><span class="type-signature">(static) </span>getWXACode<span class="signature">(type, params, cdn<span class="signature-attributes">opt</span>, categoryName<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".getWXACode"><span class="type-signature">(static) </span>getWXACode<span class="signature">(type, params, cdn<span class="signature-attributes">opt</span>, categoryName<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -1064,7 +1067,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -1185,7 +1188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line237">line 237</a>
+        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -1753,7 +1756,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line216">line 216</a>
+        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -1861,7 +1864,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line250">line 250</a>
+        <a href="sdk-file_src_wechat_auth.js.html">sdk-file/src/wechat/auth.js</a>, <a href="sdk-file_src_wechat_auth.js.html#line251">line 251</a>
     </li></ul></dd>
     
 
@@ -1898,6 +1901,161 @@
     <dd>
         
 <span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".module.exports"><span class="type-signature">(static) </span>module.exports<span class="signature">(operationID)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    获取异步操作执行结果
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>operationID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">异步操作 ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_getAsyncJobResult.js.html">core/getAsyncJobResult.js</a>, <a href="core_getAsyncJobResult.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -2018,7 +2176,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_order.js.html">sdk-file/src/wechat/order.js</a>, <a href="sdk-file_src_wechat_order.js.html#line17">line 17</a>
+        <a href="sdk-file_src_wechat_order.js.html">sdk-file/src/wechat/order.js</a>, <a href="sdk-file_src_wechat_order.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -3231,7 +3389,7 @@
     
 
     
-    <h4 class="name" id=".wxReportTicket"><span class="type-signature">(static) </span>wxReportTicket<span class="signature">(formID)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".wxReportTicket"><span class="type-signature">(static) </span>wxReportTicket<span class="signature">(formID)</span><span class="type-signature"> &rarr; {Promise.&lt;BaaS.Response.&lt;any>>}</span></h4>
     
 
     
@@ -3368,7 +3526,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise.&lt;BaaS.Response.&lt;any>></span>
 
 
     </dd>
@@ -7034,7 +7192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sdk-file_src_wechat_order.js.html">sdk-file/src/wechat/order.js</a>, <a href="sdk-file_src_wechat_order.js.html#line3">line 3</a>
+        <a href="sdk-file_src_wechat_types.js.html">sdk-file/src/wechat/types.js</a>, <a href="sdk-file_src_wechat_types.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -7331,7 +7489,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
             
@@ -7362,7 +7520,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -10532,7 +10690,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Oct 12 2019 11:08:38 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Oct 16 2019 09:07:12 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
