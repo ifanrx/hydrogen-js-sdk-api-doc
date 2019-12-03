@@ -12,4 +12,4 @@ npm run gen-docs-wechat
 
 # depoly
 cd ../
-npm run gh-pages -- -d sdk/docs
+npm run gh-pages -- -d sdk/docs -u "bamboo <zhangzeshuan@ifanr.com>"
