@@ -4,8 +4,8 @@
 yarn
 git submodule update --init
 cd sdk
-git checkout master
-git pull
+git fetch --all
+git reset --hard origin/master
 yarn
 
 # build
