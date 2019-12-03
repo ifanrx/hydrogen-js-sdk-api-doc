@@ -2,7 +2,7 @@
 
 # init
 yarn
-git submodule update --init --recursive
+git submodule update --init
 cd sdk
 git checkout master
 yarn
