@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core/TableObject.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core/TableObject.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const BaseQuery = require('./BaseQuery')
+const HError = require('./HError')
+const Query = require('./Query')
+const TableRecord = require('./TableRecord')
+const utils = require('./utils')
+const BaseRecord = require('./BaseRecord')
+
+/**
+ * 数据表
+ * @memberof BaaS
+ * @extends BaaS.BaseQuery
+ * @public
+ */
+class TableObject extends BaseQuery {
+  /**
+   * @param {string} tableName 数据表名称
+   */
+  constructor(tableID) {
+    super()
+    this._tableID = tableID
+  }
+
+  /**
+   * 创建一条数据记录
+   * @return {TableRecord}
+   */
+  create() {
+    return new TableRecord(this._tableID)
+  }
+
+  /**
+   * 批量创建数据记录
+   * @param {object[]} args 数据记录列表
+   * @param {BaaS.CreateManyParams} [options] 批量创建参数
+   * @return {Promise&lt;BaaS.Response&lt;any>>}
+   */
+  createMany(args, {enableTrigger = true} = {}) {
+    const serializeValue = BaseRecord._serializeValueFuncFactory(['BaseRecord'])
+
+    if (utils.isArray(args)) {
+      const params = {
+        tableID: this._tableID,
+        data: args.map(record => {
+          Object.keys(record).forEach(key => {
+            record[key] = serializeValue(record[key])
+          })
+          return record
+        }),
+        enable_trigger: enableTrigger ? 1 : 0
+      }
+      return BaaS.createRecordList(params)
+    } else {
+      throw new HError(605)
+    }
+  }
+
+  /**
+   * 删除数据记录
+   * @param {string} recordID 数据记录 ID
+   * @return {Promise&lt;any>}
+   *//**
+   * 批量删除数据记录
+   * @param {Query} query 数据记录查询条件
+   * @param {BaaS.BatchUpdateParams} [options] 批量操作参数
+   * @return {Promise&lt;any>}
+   */
+  delete(args, {enableTrigger = true, withCount = false} = {}) {
+    if (utils.isString(args) || Number.isInteger(args)) {
+      return BaaS.deleteRecord({tableID: this._tableID, recordID: args})
+    } else if (args instanceof Query) {
+      const params = {
+        tableID: this._tableID,
+        limit: utils.getLimitationWithEnableTigger(this._limit, enableTrigger),
+        offset: this._offset,
+        where: JSON.stringify(args.queryObject),
+        enable_trigger: enableTrigger ? 1 : 0,
+        return_total_count: withCount ? 1 : 0,
+      }
+      this._initQueryParams()
+      return BaaS.deleteRecordList(params)
+    } else {
+      throw new HError(605)
+    }
+  }
+
+  /**
+   * 获取一个数据记录，用于更新等操作（仅引用，非数据）
+   * @param {string} recordID 数据记录 ID
+   * @return {TableRecord}
+   *//**
+   * 获取多个数据记录，用于更新等操作（仅引用，非数据）
+   * @param {Query} query 数据记录查询条件
+   * @return {TableRecord}
+   */
+  getWithoutData(args) {
+    if (utils.isString(args) || Number.isInteger(args)) {
+      return new TableRecord(this._tableID, args)
+    } else if (args instanceof Query) {
+      let queryObject = {}
+      queryObject.limit = this._limit
+      queryObject.offset = this._offset
+      queryObject.where = utils.cloneDeep(args.queryObject)
+      this._initQueryParams()
+      return new TableRecord(this._tableID, null, queryObject)
+    } else {
+      throw new HError(605)
+    }
+  }
+
+  /**
+   * 获取单条数据记录。
+   * @method
+   * @param {string} recordID 数据记录 ID
+   * @return {Promise&lt;BaaS.Response&lt;any>>}
+   */
+  get(recordID) {
+    let params = {tableID: this._tableID, recordID}
+
+    if (this._expand) {
+      params.expand = this._expand
+    }
+
+    if (this._keys) {
+      params.keys = this._keys
+    }
+
+    this._initQueryParams()
+
+    return BaaS.getRecord(params)
+  }
+
+  _handleAllQueryConditions() {
+    let condition = super._handleAllQueryConditions()
+    condition.tableID = this._tableID
+    return condition
+  }
+
+  /**
+   * 获取数据记录列表。
+   * @method
+   * @param {BaaS.FindOptions} [options] 参数
+   * @return {Promise&lt;BaaS.Response&lt;any>>}
+   */
+  find({withCount = false} = {}) {
+    let condition = this._handleAllQueryConditions()
+    this._initQueryParams()
+    return BaaS.queryRecordList(Object.assign({}, condition, {
+      return_total_count: withCount ? 1 : 0,
+    }))
+  }
+
+  /**
+   * 获取数据记录数量。
+   * @method
+   * @return {Promise&lt;number>}
+   */
+  count() {
+    return this.limit(1).find({withCount: true}).then(res => {
+      let {total_count} = res.data.meta
+      return total_count
+    })
+  }
+}
+
+module.exports = TableObject
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.payment.html">payment</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.CurrentUser.html">CurrentUser</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.HError.html">HError</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 03 2019 09:13:15 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
