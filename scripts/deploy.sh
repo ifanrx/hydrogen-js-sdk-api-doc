@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 # init
+yarn
 git submodule update --init --recursive
 cd sdk
 git checkout master
