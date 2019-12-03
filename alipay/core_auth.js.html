@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core/auth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core/auth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
+const constants = require('./constants')
+const HError = require('./HError')
+const storage = require('./storage')
+const utils = require('./utils')
+const UserRecord = require('./UserRecord')
+const User = require('./User')
+
+/**
+ * 用户认证
+ * @namespace auth
+ * @memberof BaaS
+ */
+
+const API = BaaS._config.API
+
+function getAuthUrl(data, isLoginFunc) {
+  if (data.phone) {
+    return isLoginFunc ? API.LOGIN_PHONE : API.REGISTER_PHONE
+  }
+  if (data.email) {
+    return isLoginFunc ? API.LOGIN_EMAIL : API.REGISTER_EMAIL
+  }
+  return isLoginFunc ? API.LOGIN_USERNAME : API.REGISTER_USERNAME
+}
+
+function getAuthRequestData(data) {
+  if (data.phone) {
+    return {
+      phone: data.phone,
+      password: data.password,
+    }
+  }
+  if (data.email) {
+    return {
+      email: data.email,
+      password: data.password,
+    }
+  }
+  return {
+    username: data.username || '',
+    password: data.password,
+  }
+}
+
+/**
+ * 登录
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @param {(BaaS.AuthWithUsernameOptions|BaaS.AuthWithEmailOptions|BaaS.AuthWithPhoneOptions)} options
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+const login = params => {
+  let url = getAuthUrl(params, true)
+  let data = getAuthRequestData(params)
+  return BaaS.request({
+    url,
+    method: 'POST',
+    data,
+  }).then(utils.validateStatusCode).then(res => {
+    BaaS._polyfill.handleLoginSuccess(res)
+    return getCurrentUser()
+  })
+}
+
+/**
+ * 匿名登录
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+const anonymousLogin = () => {
+  return BaaS.request({
+    url: API.ANONYMOUS_LOGIN,
+    method: 'POST',
+  }).then(utils.validateStatusCode).then(res => {
+    BaaS._polyfill.handleLoginSuccess(res, true)
+    return getCurrentUser()
+  })
+}
+
+/**
+ * 静默登录
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+const silentLogin = () => {
+  return Promise.reject(new HError(605, 'silentLogin 方法未定义'))
+}
+
+/**
+ * 注册
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @param {(BaaS.AuthWithUsernameOptions|BaaS.AuthWithEmailOptions|BaaS.AuthWithPhoneOptions)} options
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+const register = params => {
+  let url = getAuthUrl(params)
+  let data = getAuthRequestData(params)
+  return BaaS.request({
+    url,
+    method: 'POST',
+    data,
+  }).then(utils.validateStatusCode).then(res => {
+    BaaS._polyfill.handleLoginSuccess(res)
+    return getCurrentUser()
+  })
+}
+
+
+/**
+ * 退出登录状态
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @return {Promise&lt;BaaS.Response&lt;any>>}
+ */
+const logout = () => {
+  return BaaS.request({
+    url: API.LOGOUT,
+    method: 'POST',
+  }).then(utils.validateStatusCode).then(res => {
+    BaaS.clearSession()
+    return res
+  })
+}
+
+/**
+ * 忘记密码，发送重置密码邮件
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @param {BaaS.PasswordResetParam} param 账号信息
+ * @return {Promise&lt;BaaS.Response&lt;any>>}
+ */
+const requestPasswordReset = ({email} = {}) => {
+  return BaaS.request({
+    url: API.PASSWORD_RESET,
+    method: 'POST',
+    data: {email},
+  }).then(utils.validateStatusCode)
+}
+
+/**
+ * 获取当前用户
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+let getCurrentUser = () => {
+  let uid = storage.get(constants.STORAGE_KEY.UID)
+  let expiresAt = storage.get(constants.STORAGE_KEY.EXPIRES_AT)
+  if (!uid || !expiresAt || utils.isSessionExpired()) return Promise.reject(new HError(604))
+
+  return new User().get(uid).then(res => {
+    let user = UserRecord.initCurrentUser(res.data)
+    user.user_id = res.data.id
+    user.session_expires_at = expiresAt
+    return user
+  })
+}
+
+/**
+ * 使用手机号 + 验证码登录
+ * @since v2.0.0
+ * @memberof BaaS.auth
+ * @param {string} mobilePhone 手机号码
+ * @param {string} smsCode 验证码
+ * @param {BaaS.LoginOptions} [options] 可选配置
+ * @return {Promise&lt;BaaS.CurrentUser>}
+ */
+const loginWithSmsVerificationCode = (mobilePhone, smsCode, {createUser = true} = {}) => {
+  return BaaS.request({
+    url: API.LOGIN_SMS,
+    data: {phone: mobilePhone, code: smsCode, create_user: createUser},
+    method: 'POST',
+  }).then(utils.validateStatusCode).then(res => {
+    BaaS._polyfill.handleLoginSuccess(res, false)
+    return getCurrentUser()
+  })
+}
+
+module.exports = {
+  login: utils.rateLimit(login),
+  logout,
+  silentLogin,
+  loginWithSmsVerificationCode: utils.rateLimit(loginWithSmsVerificationCode),
+  anonymousLogin: utils.rateLimit(anonymousLogin),
+  requestPasswordReset,
+  register: utils.rateLimit(register),
+  getCurrentUser: utils.rateLimit(getCurrentUser),
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.CurrentUser.html">CurrentUser</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.HError.html">HError</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createAuthFn">createAuthFn</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 03 2019 09:29:56 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
