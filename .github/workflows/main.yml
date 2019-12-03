@@ -19,7 +19,7 @@ jobs:
         run: |
           cd sdk
           npm install
-          npm run gen-docs-wechat
+          npm run gen-docs
       - name: deploy
         run: |
           npm install gh-pages -g
