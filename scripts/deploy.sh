@@ -5,6 +5,7 @@ yarn
 git submodule update --init
 cd sdk
 git checkout master
+git pull
 yarn
 
 # build
