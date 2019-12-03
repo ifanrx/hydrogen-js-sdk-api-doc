@@ -1,0 +1,22 @@
+{
+  "name": "@ifanrx/hydrogen-js-sdk-api-doc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gh-pages": "gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ifanrx/hydrogen-js-sdk-api-doc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ifanrx/hydrogen-js-sdk-api-doc/issues"
+  },
+  "homepage": "https://github.com/ifanrx/hydrogen-js-sdk-api-doc#readme",
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  }
+}
