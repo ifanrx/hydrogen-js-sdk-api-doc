@@ -9,7 +9,7 @@ git reset --hard origin/master
 yarn
 
 # build
-npm run gen-docs-wechat
+npm run gen-docs
 
 hostname
 
