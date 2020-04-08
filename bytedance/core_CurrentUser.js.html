@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core/CurrentUser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core/CurrentUser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const UserRecord = require('./UserRecord')
+const BaaS = require('./baas')
+const HError = require('./HError')
+const utils = require('./utils')
+const constants = require('./constants')
+const USER_PROFILE_BUILD_IN_FIELDS = constants.USER_PROFILE_BUILD_IN_FIELDS
+const API = BaaS._config.API
+
+/**
+ * @memberof BaaS
+ * @extends BaaS.UserRecord
+ * @package
+ */
+class CurrentUser extends UserRecord {
+  /**
+   * @param {Object} attribute 用户信息
+   */
+  constructor(attribute) {
+    super()
+    if (!utils.isObject(attribute)) {
+      return new HError(605)
+    }
+    this.initAttribute(attribute)
+  }
+
+  initAttribute(attribute) {
+    this._attribute = Object.assign({}, attribute)
+    Object.keys(attribute).forEach(key => {
+      // 以下划线开头或者是原有内置字段将直接添加在该对象上
+      if (key[0] === '_' || USER_PROFILE_BUILD_IN_FIELDS.includes(key)) {
+        this[key] = attribute[key]
+      }
+    })
+  }
+
+  /**
+   * 以 JSON Object 的形式返回用户信息
+   * @returns {Object} 用户信息
+   */
+  toJSON() {
+    return this._attribute
+  }
+
+  /**
+   * 获取某一项用户信息
+   * @param {string} key 用户信息 key
+   * @returns {any} 用户信息
+   */
+  get(key) {
+    return this._attribute[key]
+  }
+
+  /**
+   * 将微信账号绑定到当前用户，匿名用户无法调用
+   * @param {BaaS.AuthData|null} [authData] 用户信息
+   * @param {BaaS.LinkWechatOptions} [params] 用户信息参数
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  linkWechat() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkWechat) {
+      return Promise.reject(new HError(605, 'linkWechat 方法未定义'))
+    }
+    return BaaS._polyfill.linkWechat.apply(null, arguments)
+  }
+
+  /**
+   * 将支付宝账号绑定到当前用户，匿名用户无法调用
+   * @param {BaaS.LinkAlipayParams} [options] 参数
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  linkAlipay() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkAlipay) {
+      return Promise.reject(new HError(605, 'linkAlipay 方法未定义'))
+    }
+    return BaaS._polyfill.linkAlipay.apply(null, arguments)
+  }
+
+  /**
+   * 将 QQ 账号绑定到当前用户，匿名用户无法调用
+   * @param {BaaS.AuthData|null} [authData] 用户信息
+   * @param {BaaS.LinkOptions} [params] 用户信息参数
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  linkQQ() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkQQ) {
+      return Promise.reject(new HError(605, 'linkQQ 方法未定义'))
+    }
+    return BaaS._polyfill.linkQQ.apply(null, arguments)
+  }
+
+  /**
+   * 将百度账号绑定到当前用户，匿名用户无法调用
+   * @param {BaaS.AuthData|null} [authData] 用户信息
+   * @param {BaaS.LinkOptions} [params] 用户信息参数
+   * @returns {Promise&lt;this>} [UserRecord] 实例
+   */
+  linkBaidu() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkBaidu) {
+      return Promise.reject(new HError(605, 'linkBaidu 方法未定义'))
+    }
+    return BaaS._polyfill.linkBaidu.apply(null, arguments)
+  }
+
+  /**
+   * 将字节跳动账号绑定到当前用户，匿名用户无法调用
+   * @param {BaaS.LinkBytedanceParams} [options] 参数
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  linkTt() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkTt) {
+      return Promise.reject(new HError(605, 'linkTt 方法未定义'))
+    }
+    return BaaS._polyfill.linkTt.apply(null, arguments)
+  }
+
+  /**
+   * 将第三方账号绑定到当前用户，匿名用户无法调用
+   * @since v2.1.0
+   * @param {string} providor 第三方平台
+   * @param {string} authPageUrl 授权页面 URL
+   * @param {BaaS.LinkThirdPartyParams} [options] 其他选项
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  linkThirdParty() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (!BaaS._polyfill.linkThirdParty) {
+      return Promise.reject(new HError(605, 'linkThirdParty 方法未定义'))
+    }
+    return BaaS._polyfill.linkThirdParty.apply(null, arguments)
+  }
+
+  /**
+   * 更新密码
+   *
+   * @param {BaaS.UpdatePasswordParams} options
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  updatePassword({password, newPassword}) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.ACCOUNT_INFO,
+      method: 'PUT',
+      data: {
+        password,
+        new_password: newPassword,
+      },
+    }).then(() => this)
+  }
+
+  /**
+   * 更新邮箱
+   * @param {string|null} email email 地址
+   * @param {SetEmailOptions} [options] 可选参数
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  setEmail(email, {sendVerificationEmail = false} = {}) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.ACCOUNT_INFO,
+      method: 'PUT',
+      data: {email},
+    }).then(res => {
+      if (sendVerificationEmail) {
+        this.requestEmailVerification(email)
+      }
+      this.initAttribute(res.data)
+      return this
+    })
+  }
+
+  /**
+   * 更新用户名
+   * @param {string|null} username 用户名
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  setUsername(username) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.ACCOUNT_INFO,
+      method: 'PUT',
+      data: {username},
+    }).then(res => {
+      this.initAttribute(res.data)
+      return this
+    })
+  }
+
+  /**
+   * 发送验证邮件
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  requestEmailVerification() {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.EMAIL_VERIFY,
+      method: 'POST',
+    }).then(() => this)
+  }
+
+  /**
+   * 初次设置账号信息
+   * @param {BaaS.SetAccountParmas} accountInfo
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  setAccount(accountInfo = {}) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    if (accountInfo.password) {
+      accountInfo.new_password = accountInfo.password
+      delete accountInfo.password
+    }
+
+    return BaaS._baasRequest({
+      url: API.ACCOUNT_INFO,
+      method: 'PUT',
+      data: accountInfo,
+    }).then(res => {
+      this.initAttribute(res.data)
+      return this
+    })
+  }
+
+
+  /**
+   * 更改手机号
+   * @param {string|null} phone 手机号码
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  setMobilePhone(phone) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.ACCOUNT_INFO,
+      method: 'PUT',
+      data: {phone},
+    }).then(res => {
+      this.initAttribute(res.data)
+      return this
+    })
+  }
+
+  /**
+   * 验证手机号
+   * @param {string} code 短信验证码
+   * @returns {Promise&lt;this>} UserRecord 实例
+   */
+  verifyMobilePhone(code) {
+    if (this._anonymous) {
+      return Promise.reject(new HError(612))
+    }
+    return BaaS._baasRequest({
+      url: API.VERIFY_MOBILE,
+      method: 'POST',
+      data: {code},
+    }).then(() => this)
+  }
+}
+
+module.exports = CurrentUser
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BaaS.html">BaaS</a></li><li><a href="BaaS._config.html">_config</a></li><li><a href="BaaS.auth.html">auth</a></li><li><a href="BaaS.storage.html">storage</a></li></ul><h3>Classes</h3><ul><li><a href="BaaS.BaseQuery.html">BaseQuery</a></li><li><a href="BaaS.BaseRecord.html">BaseRecord</a></li><li><a href="BaaS.ContentGroup.html">ContentGroup</a></li><li><a href="BaaS.CurrentUser.html">CurrentUser</a></li><li><a href="BaaS.File.html">File</a></li><li><a href="BaaS.FileCategory.html">FileCategory</a></li><li><a href="BaaS.GeoPoint.html">GeoPoint</a></li><li><a href="BaaS.GeoPolygon.html">GeoPolygon</a></li><li><a href="BaaS.HError.html">HError</a></li><li><a href="BaaS.Order.html">Order</a></li><li><a href="BaaS.Query.html">Query</a></li><li><a href="BaaS.TableObject.html">TableObject</a></li><li><a href="BaaS.TableRecord.html">TableRecord</a></li><li><a href="BaaS.User.html">User</a></li><li><a href="BaaS.UserRecord.html">UserRecord</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Apr 08 2020 02:41:30 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
