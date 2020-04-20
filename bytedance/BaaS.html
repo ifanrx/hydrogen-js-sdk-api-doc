@@ -274,7 +274,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line50">line 50</a>
+        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -362,7 +362,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line80">line 80</a>
+        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -605,7 +605,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line40">line 40</a>
+        <a href="core_index.js.html">core/index.js</a>, <a href="core_index.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -1123,6 +1123,207 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="core_invokeFunction.js.html">core/invokeFunction.js</a>, <a href="core_invokeFunction.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".pay"><span class="type-signature">(static) </span>pay<span class="signature">(params, bannedChannels<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    字节跳动支付
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="BaaS.html#.PaymentParams">BaaS.PaymentParams</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">参数</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bannedChannels</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">需要隐藏的支付方式</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v3.11.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_bytedance_pay.js.html">sdk-file/src/bytedance/pay.js</a>, <a href="sdk-file_src_bytedance_pay.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -6321,6 +6522,281 @@
 
             
                 
+<h4 class="name" id=".PaymentParams">PaymentParams</h4>
+
+
+
+
+<div class="description">
+    支付参数
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>merchandiseDescription</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">微信支付凭证-商品详情的内容</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>totalCost</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">支付总额，单位：元</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">支付方式，1 为收银台支付，3 为微信 API 支付，4 为 支付宝 API 支付，默认为 1</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>merchandiseSchemaID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">商品数据表 ID，可用于定位用户购买的物品</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>merchandiseRecordID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">商品数据行 ID，可用于定位用户购买的物品</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>merchandiseSnapshot</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">根据业务需求自定义的数据</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sdk-file_src_bytedance_types.js.html">sdk-file/src/bytedance/types.js</a>, <a href="sdk-file_src_bytedance_types.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
 <h4 class="name" id=".RequestParams">RequestParams</h4>
 
 
@@ -9535,7 +10011,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Apr 17 2020 11:07:52 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Apr 20 2020 03:46:20 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
