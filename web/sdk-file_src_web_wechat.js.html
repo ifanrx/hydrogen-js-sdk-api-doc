@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: core/GeoPoint.js</title>
+    <title>JSDoc: Source: sdk-file/src/web/wechat.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: core/GeoPoint.js</h1>
+    <h1 class="page-title">Source: sdk-file/src/web/wechat.js</h1>
 
     
 
@@ -26,37 +26,30 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const utils = require('./utils')
-
-/**
- * Geo 点
- * @memberof BaaS
- * @public
- */
-class GeoPoint {
+            <pre class="prettyprint source linenums"><code>module.exports = function (BaaS) {
   /**
-   * @param {number} longitude 经度
-   * @param {number} latitude 纬度
+   * 
+   * @memberof BaaS
+   * @param {string} url 当前页面的完整 UR，不包含 # 及其后面部分
+   * @return {Promise&lt;any>}
    */
-  constructor(longitude, latitude) {
-    this.longitude = longitude
-    this.latitude = latitude
-    this.geoJSON = {
-      'type': 'Point',
-      'coordinates': [this.longitude, this.latitude]
-    }
-  }
+  BaaS.getWechatJSSDKCredentials = function (url) {
+    // if (!url) {
+    //   throw new HError(605, 'url 必填')
+    // }
 
-  /**
-   * 转换为 GeoJSON
-   * @return {BaaS.GeoJson}
-   */
-  toGeoJSON() {
-    return utils.cloneDeep(this.geoJSON)
+    // if (url.indexOf('#')) {
+    //   throw new HError(605, 'url 不能包含 #')
+    // }
+
+    return BaaS._baasRequest({
+      url: BaaS._config.API.WECHAT.JSSDK_CREDENTIALS,
+      method: 'GET',
+      data: {url},
+    })
+      .then(res => res.data)
   }
 }
-
-module.exports = GeoPoint
 </code></pre>
         </article>
     </section>
