@@ -16,4 +16,4 @@ hostname
 # depoly
 cd ../
 
-npm run gh-pages -- -r https://${TOKEN}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdk/docs
+npm run gh-pages -- -r https://haihonglicom:${TOKEN}@github.com/ifanrx/hydrogen-js-sdk-api-doc.git -d sdk/docs
