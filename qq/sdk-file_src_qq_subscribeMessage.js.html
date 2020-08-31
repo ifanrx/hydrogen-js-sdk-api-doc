@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: sdk-file/src/qq/pay.js</title>
+    <title>JSDoc: Source: sdk-file/src/qq/subscribeMessage.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: sdk-file/src/qq/pay.js</h1>
+    <h1 class="page-title">Source: sdk-file/src/qq/subscribeMessage.js</h1>
 
     
 
@@ -26,63 +26,29 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const HError = require('core-module/HError')
+            <pre class="prettyprint source linenums"><code>const BaaS = require('core-module/baas')
+const constants = require('core-module/constants')
 
-const keysMap = {
-  merchandiseSchemaID: 'merchandise_schema_id', // optional
-  merchandiseRecordID: 'merchandise_record_id', // optional
-  merchandiseSnapshot: 'merchandise_snapshot', // optional
-  merchandiseDescription: 'merchandise_description', // required
-  totalCost: 'total_cost', // required
-}
-
-/**
- * QQ 支付
- * @function
- * @name pay
- * @since v2.4.0
- * @memberof BaaS
- * @param {BaaS.PaymentParams} params 参数
- * @return {Promise&lt;any>}
- */
-const createPayFn = BaaS => params => {
-  const API = BaaS._config.API
-  let paramsObj = {}
-
-  for (let key in params) {
-    paramsObj[keysMap[key]] = params[key]
-  }
-
-  paramsObj.gateway_type = 'qpay'
-
-  return BaaS._baasRequest({
-    url: API.PAY,
-    method: 'POST',
-    data: paramsObj,
-  }).then(function (res) {
-    let data = res.data || {}
-    return new Promise((resolve, reject) => {
-      qq.requestPayment({
-        package: data.package,
-        success: function (res) {
-          res.transaction_no = data.transaction_no
-          res.trade_no = data.trade_no
-          return resolve(res)
-        },
-        fail: function (err) {
-          if (err.errMsg == 'requestPayment:fail 用户取消') {
-            reject(new HError(607))
-          } else {
-            reject(new HError(608, err.errMsg))
-          }
-        },
-      })
-    })
-  })
-}
+const API = BaaS._config.API
 
 module.exports = function (BaaS) {
-  BaaS.pay = createPayFn(BaaS)
+  /**
+   * 上报订阅消息订阅关系
+   * @function
+   * @memberof BaaS
+   * @param {BaaS.SubscribeMessageOptions} options 参数
+   * @return {Promise&lt;BaaS.Response&lt;any>>}
+   */
+  BaaS.subscribeMessage = (options) => {
+    return BaaS._baasRequest({
+      url: API.QQ.SUBSCRIBE_MESSAGE,
+      method: 'POST',
+      data: {
+        platform: constants.PLATFORM.QQ,
+        ...options,
+      },
+    })
+  }
 }
 </code></pre>
         </article>
