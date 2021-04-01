@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: core/storageAsync.js</title>
+    <title>JSDoc: Source: sdk-file/src/wechat/wxGetUserRiskRank.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: core/storageAsync.js</h1>
+    <h1 class="page-title">Source: sdk-file/src/wechat/wxGetUserRiskRank.js</h1>
 
     
 
@@ -26,35 +26,48 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const BaaS = require('./baas')
-const storageKeyPrefix = 'ifx_baas_'
+            <pre class="prettyprint source linenums"><code>const BaaS = require('core-module/baas')
+const HError = require('core-module/HError')
+
+const API = BaaS._config.API
 
 /**
- * 本地存储
- * @namespace storageAsync
+ * 微信安全风控等级查询
+ * @function
  * @memberof BaaS
+ * @param {BaaS.GetUserRiskRankOptions} options 参数对象
+ * @return {Promise&lt;any>}
  */
-
-module.exports = {
-  /**
-   * 存入数据
-   * @memberof BaaS.storageAsync
-   * @param {string} key 键
-   * @param {Promise&lt;any>} value 值
-   */
-  set: (key, value) => {
-    return BaaS._polyfill.setStorageAsync(storageKeyPrefix + key, value)
-  },
-  /**
-   * 读取数据
-   * @memberof BaaS.storageAsync
-   * @param {string} key 键
-   * @return {Promise&lt;any>}
-   */
-  get: (key) => {
-    return BaaS._polyfill.getStorageAsync(storageKeyPrefix + key)
+const wxGetUserRiskRank = options => {
+  if (!validateOptions(options)) {
+    throw new HError(605)
   }
+  const { scene, mobileNo, emailAddress, extendedInfo } = options
+
+  const paramsObj = {
+    scene,
+    mobile_no: mobileNo,
+    email_address: emailAddress,
+    extended_info: extendedInfo
+  }
+
+  return BaaS._baasRequest({
+    url: API.WECHAT.USER_RISK_RANK,
+    method: 'POST',
+    data: paramsObj,
+  })
 }
+
+const validateOptions = options => {
+  if (typeof options !== 'object') return false
+  if (options.scene === undefined) return false
+
+  const validateScene = [0, 1]
+
+  return validateScene.includes(parseInt(options.scene))
+}
+
+module.exports = wxGetUserRiskRank
 </code></pre>
         </article>
     </section>
